@@ -109,6 +109,14 @@ configure_app() {
         echo -e "${C_GREEN}Database certificate password generated.${C_NC}"
     fi
 
+    echo -e "\n${C_YELLOW}4. System Email Configuration${C_NC}"
+    read -p "Enter system email address (for notifications, etc): " SYSTEMEMAIL_EMAIL
+    read -p "Enter SMTP host: " SYSTEMEMAIL_HOST
+    read -p "Enter SMTP port: " SYSTEMEMAIL_PORT
+    read -p "Enter SMTP username: " SYSTEMEMAIL_USERNAME
+    read -s -p "Enter SMTP password: " SYSTEMEMAIL_PASSWORD
+    echo
+
     echo -e "\n${C_BLUE}Generating .env file...${C_NC}"
     cat > .env << EOF
 # Auto-generated on $(date)
@@ -124,11 +132,11 @@ DATABASE_LICENSE=""
 services__collabora__https__0="https://collabora.hosting.consolidate.eu"
 
 # System Email Configuration
-SystemEmail__Email=""
-SystemEmail__Host=""
-SystemEmail__Port=""
-SystemEmail__Username=""
-SystemEmail__Password=""
+SystemEmail__Email="$SYSTEMEMAIL_EMAIL"
+SystemEmail__Host="$SYSTEMEMAIL_HOST"
+SystemEmail__Port="$SYSTEMEMAIL_PORT"
+SystemEmail__Username="$SYSTEMEMAIL_USERNAME"
+SystemEmail__Password="$SYSTEMEMAIL_PASSWORD"
 
 HTTP_PORT="$HTTP_PORT"
 HTTPS_PORT="$HTTPS_PORT"
