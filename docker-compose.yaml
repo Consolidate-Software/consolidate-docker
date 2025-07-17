@@ -30,8 +30,6 @@ services:
       Database__Urls__0: "https://db:8080"
       Database__ValidateRemoteCertificate: "false"
 
-      services__collaboration__http__0: "http://collab:5123"
-      services__collabora__https__0: "${COLLABORA_URL}"
       ConnectionStrings__redis: "cache:6379"
 
       LettuceEncrypt__Enabled: "${HTTPS_PORT:+true}"
@@ -62,19 +60,6 @@ services:
         condition: service_healthy
       db_setup:
         condition: service_completed_successfully
-
-  collab:
-    image: ghcr.io/consolidate-software/consolidate-collab:${VERSION}
-
-    environment:
-      PORT: "5123"
-      services__api__http__0: "${HTTP_PORT:+http://web:${HTTP_PORT}}"
-      services__api__https__0: "${HTTPS_PORT:+https://${DOMAIN_NAME}:${HTTPS_PORT}}"
-
-    networks:
-      - app-network
-
-    restart: unless-stopped
 
   cache:
     image: redis:8.0.3
