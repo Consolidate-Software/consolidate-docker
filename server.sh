@@ -127,7 +127,6 @@ LICENSE_KEY="$LICENSE_KEY"
 
 DATABASE_NAME="Consolidate"
 DATABASE_CERT_PASSWORD="$DATABASE_CERT_PASSWORD"
-DATABASE_LICENSE=""
 
 services__collabora__https__0="https://collabora.hosting.consolidate.eu"
 
@@ -147,7 +146,7 @@ ADMIN_PASSWORD="$ADMIN_PASSWORD"
 
 DOMAIN_NAME="$DOMAIN_NAME"
 
-# Forwarded Headers (if running behind a reverse proxy)
+# Forwarded Headers (uncomment if running behind a reverse proxy)
 # ASPNETCORE_FORWARDEDHEADERS_ENABLED="true"
 
 # Backup Settings

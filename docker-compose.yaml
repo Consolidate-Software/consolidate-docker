@@ -87,8 +87,7 @@ services:
     environment:
       CERTIFICATE_BASE_DIR: "/config"
       CERTIFICATE_PASSWORD: "${DATABASE_CERT_PASSWORD}"
-      DOMAIN_NAME: "${DOMAIN_NAME}"
-      RAVEN_License: "${DATABASE_LICENSE}"
+      DOMAIN_NAME: "db"
       RAVEN_License_Eula_Accepted: "true"
       RAVEN_PublicServerUrl: "https://db:8080"
 
