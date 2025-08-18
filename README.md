@@ -1,6 +1,6 @@
-# Consolidate Docker Installation Guide
+# Consolidate On-Premise Installation Guide
 
-This guide will help you install and run Consolidate using Docker and the provided `server.sh` script.
+This guide will help you install and run Consolidate On-Premise using Docker and the provided `server.sh` script.
 
 ## Prerequisites
 
