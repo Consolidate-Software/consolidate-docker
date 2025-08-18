@@ -4,6 +4,17 @@ This guide will help you install and run Consolidate using Docker and the provid
 
 ## Prerequisites
 
+### Networking:
+
+- **Domain Name**: You need a domain name that resolves to your server (via static IP or dynamic DNS).
+- **Server Accessibility**: Your server must be accessible from the web, typically on port 443.
+- **LetsEncrypt Certificates**: If you plan to use integrated LetsEncrypt certificates, ensure your server is reachable on port 80.
+- **Firewall**: Configure your firewall to allow necessary traffic.
+
+### System Emails:
+- **Mail Server**: Set up a mail server capable of sending emails via SMTP. This is required for system notifications (e.g., appointment invitations).
+
+### Software:
 - **Docker**: You must have Docker installed on your system. [Install Docker](https://docs.docker.com/engine/install/)
 - **Git**: You must have Git installed. [Install Git](https://git-scm.com/downloads)
 
