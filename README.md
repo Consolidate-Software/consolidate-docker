@@ -20,9 +20,10 @@ During setup, you can choose between two hosting options for exposing your Conso
 - **Description**: The application is exposed directly to the internet, and a TLS certificate is automatically generated using Let's Encrypt.
 - **Prerequisites**:
    - You must have a domain name that resolves to your server (via static IP or dynamic DNS).
-   - Your server must be accessible from the web on **port 80** (for certificate generation) and **port 443** (for HTTPS traffic).
-   - Ensure your firewall allows inbound traffic on ports 80 and 443.
-   - The server must not have another service listening on port 80 or 443.
+   - Your server must be accessible from the web on **port 80** (for certificate generation).
+   - Two additional ports for HTTPS and Database traffic (default 443 and 8080).
+   - Ensure your firewall allows inbound traffic on the configured ports.
+   - The server must not have another service listening on the configured ports.
 
 
 ### 2. Exposure via Reverse Proxy
@@ -33,9 +34,10 @@ During setup, you can choose between two hosting options for exposing your Conso
     - Your reverse proxy must be configured to:
        - Handle TLS certificate generation and termination (the application itself does not provide HTTPS).
        - Forward HTTP requests to the application's HTTP port (customizable during setup).
+       - Forward HTTP requiests to the application's Database port (customizable during setup).
        - Set the "X-Forwarded-For" and "X-Forwarded-Proto" headers for proper client IP and protocol handling.
     - No HTTPS port is required for the application itself; all traffic between the proxy and the application is unencrypted HTTP.
-    - Ensure your firewall allows inbound traffic to your proxy and traffic from the proxy to the application's HTTP port.
+    - Ensure your firewall allows inbound traffic to your proxy and traffic from the proxy to the application.
 
 ### System Emails
 - **Mail Server**: You need an SMTP server capable of sending emails. This is required for system notifications (e.g., appointment invitations).

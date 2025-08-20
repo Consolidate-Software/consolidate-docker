@@ -7,7 +7,7 @@ Diese Anleitung hilft Ihnen, Consolidate On-Premise mit Docker und dem bereitges
 
 **Wichtig**
 
-Die Nutzung von Consolidate On-Premise setzt voraus, dass Sie einen Webserver sicher administrieren können, einschließlich regelmäßiger Betriebssystem-Updates, Firewall-Management und allgemeiner Serversicherheit.  
+Als Betreiber von Consolidate On-Premise müssen Sie sicherstellen, dass es einen Betreuer gibt, der den erforderlichen Webserver sicher administriert, einschließlich regelmäßiger Betriebssystem-Updates, Firewall-Management und allgemeiner Serversicherheit.  
 Sie sind selbst verantwortlich für Backups, Updates und die laufende Wartung Ihres Servers und Ihrer Daten.
 
 Falls Sie sich nicht sicher sind, eine sichere und stabile Umgebung gewährleisten zu können, empfehlen wir dringend unsere Cloud-Hosting-Optionen: [Consolidate Cloud-Pläne](https://www.consolidate.eu/preise)
@@ -23,8 +23,9 @@ Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
 - **Voraussetzungen**:
    - Sie benötigen einen Domainnamen, der auf Ihren Server zeigt (statische IP oder dynamisches DNS).
    - Ihr Server muss über das Internet auf **Port 80** (für die Zertifikatsgenerierung) und **Port 443** (für HTTPS) erreichbar sein.
-   - Die Firewall muss eingehenden Traffic auf Port 80 und 443 erlauben.
-   - Es darf kein anderer Dienst auf Port 80 oder 443 laufen.
+   - Es werden zwei weitere Ports benötigt: (Standardmäßig 443 und 8080).
+   - Stellen Sie sicher, dass Ihre Firewall eingehenden Traffic auf die konfigurierten Ports erlaubt.
+   - Es darf kein anderer Dienst auf den konfigurierten Ports laufen.
 
 ### 2. Freigabe über Reverse Proxy
 
@@ -32,11 +33,12 @@ Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
 - **Voraussetzungen**:
     - Sie benötigen einen Domainnamen, der auf Ihren Proxy-Server zeigt.
     - Ihr Reverse Proxy muss so konfiguriert sein, dass:
-       - TLS-Zertifikate generiert und terminiert werden (die Anwendung selbst bietet kein HTTPS).
-       - HTTP-Anfragen an den HTTP-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar).
-       - Die Header "X-Forwarded-For" und "X-Forwarded-Proto" gesetzt werden.
+      - TLS-Zertifikate generiert und terminiert werden (die Anwendung selbst bietet kein HTTPS).
+      - HTTP-Anfragen an den HTTP-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar).
+      - HTTP-Anfragen an den Datenbank-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar).
+      - Die Header "X-Forwarded-For" und "X-Forwarded-Proto" gesetzt werden.
     - Für die Anwendung ist kein HTTPS-Port erforderlich; der gesamte Traffic zwischen Proxy und Anwendung ist unverschlüsselt (HTTP).
-    - Die Firewall muss eingehenden Traffic zum Proxy und Traffic vom Proxy zum HTTP-Port der Anwendung erlauben.
+    - Die Firewall muss eingehenden Traffic zum Proxy und Traffic vom Proxy zur der Anwendung erlauben.
 
 ### System-E-Mails
 - **Mailserver**: Sie benötigen einen SMTP-Server, der E-Mails versenden kann. Dies ist für Systembenachrichtigungen (z.B. Termineinladungen) erforderlich.
