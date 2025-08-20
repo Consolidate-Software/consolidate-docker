@@ -80,24 +80,52 @@ configure_app() {
         fi
     done
 
-    echo -e "\n${C_YELLOW}2. Domain and Network${C_NC}"
-    read -p "Enter the public domain name (e.g., app.company.com): " DOMAIN_NAME
-    while [ -z "$DOMAIN_NAME" ]; do
-        echo -e "${C_RED}Domain name cannot be empty.${C_NC}"
-        read -p "Enter the public domain name (e.g., app.company.com): " DOMAIN_NAME
+
+    echo -e "\n${C_YELLOW}How do you want to exposing your application?${C_NC}"
+    echo "  1) Expose directly and generate certificate with Let's Encrypt (requires port 80 for HTTP)"
+    echo "  2) Expose via a reverse proxy, don't generate certificate (custom HTTP port, no HTTPS port)"
+    while true; do
+        read -p "Choose option [1/2]: " EXPOSE_OPTION
+        if [[ "$EXPOSE_OPTION" == "1" ]]; then
+            HTTP_PORT="80"
+            ASPNETCORE_FORWARDEDHEADERS_ENABLED="false"
+
+            read -p "Enter the public domain name (e.g., app.company.com): " DOMAIN_NAME
+            while [ -z "$DOMAIN_NAME" ]; do
+                echo -e "${C_RED}Domain name cannot be empty.${C_NC}"
+                read -p "Enter the public domain name (e.g., app.company.com): " DOMAIN_NAME
+            done
+
+            read -p "Enter HTTPS port (default 443): " HTTPS_PORT
+            if [ -z "$HTTPS_PORT" ]; then
+                HTTPS_PORT="443"
+            fi
+            break
+        elif [[ "$EXPOSE_OPTION" == "2" ]]; then
+            read -p "Enter HTTP port (default 80): " HTTP_PORT
+            if [ -z "$HTTP_PORT" ]; then
+                HTTP_PORT="80"
+            fi
+            HTTPS_PORT=""
+            DOMAIN_NAME=""
+            ASPNETCORE_FORWARDEDHEADERS_ENABLED="true"
+            break
+        else
+            echo -e "${C_RED}Invalid option. Please enter 1 or 2.${C_NC}"
+        fi
     done
 
-    read -p "Use default ports (HTTP: 80, HTTPS: 443)? (Y/n) " USE_DEFAULTS
-    if [[ "$USE_DEFAULTS" == "n" || "$USE_DEFAULTS" == "N" ]]; then
-        read -p "Enter HTTP port: " HTTP_PORT
-        read -p "Enter HTTPS port: " HTTPS_PORT
-    else
-        HTTP_PORT="80"
-        HTTPS_PORT="443"
+    read -p "Enter Database port (default 8080): " DATABASE_PORT
+    if [ -z "$DATABASE_PORT" ]; then
+        DATABASE_PORT="8080"
     fi
 
     echo -e "\n${C_YELLOW}3. License Key${C_NC}"
     read -p "Enter your License key: " LICENSE_KEY
+    while [ -z "$LICENSE_KEY" ]; do
+        echo -e "${C_RED}License key cannot be empty.${C_NC}"
+        read -p "Enter your License key: " LICENSE_KEY
+    done
 
     # Only generate a new password if not present or empty
     if [ -n "$EXISTING_CERT_PASSWORD" ]; then
@@ -139,15 +167,14 @@ SystemEmail__Password="$SYSTEMEMAIL_PASSWORD"
 
 HTTP_PORT="$HTTP_PORT"
 HTTPS_PORT="$HTTPS_PORT"
-DATABASE_PORT="8080"
+DATABASE_PORT="$DATABASE_PORT"
+
+ASPNETCORE_FORWARDEDHEADERS_ENABLED="${ASPNETCORE_FORWARDEDHEADERS_ENABLED}"
 
 ADMIN_EMAIL="$ADMIN_EMAIL"
 ADMIN_PASSWORD="$ADMIN_PASSWORD"
 
 DOMAIN_NAME="$DOMAIN_NAME"
-
-# Forwarded Headers (uncomment if running behind a reverse proxy)
-# ASPNETCORE_FORWARDEDHEADERS_ENABLED="true"
 
 # Backup Settings
 Backup__Enabled="true"
@@ -176,12 +203,7 @@ start_app() {
     fi
     echo -e "\n${C_BLUE}Starting the application with Docker Compose...${C_NC}"
     docker compose up -d
-    # Extract DOMAIN_NAME and ADMIN_EMAIL for display
-    DOMAIN_NAME=$(grep '^DOMAIN_NAME=' .env | cut -d'=' -f2- | tr -d '"')
-    ADMIN_EMAIL=$(grep '^ADMIN_EMAIL=' .env | cut -d'=' -f2- | tr -d '"')
     echo -e "\n${C_GREEN}✅ Application started successfully!${C_NC}"
-    echo -e "You can access it at: ${C_YELLOW}https://$DOMAIN_NAME${C_NC}"
-    echo -e "Admin user: ${C_YELLOW}$ADMIN_EMAIL${C_NC}"
     echo
     echo "To view logs, run: docker compose logs -f"
     echo "To stop the application, run: $0 stop"
