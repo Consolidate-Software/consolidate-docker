@@ -5,6 +5,14 @@
 
 Diese Anleitung hilft Ihnen, Consolidate On-Premise mit Docker und dem bereitgestellten `server.sh`-Skript zu installieren und zu betreiben.
 
+**Wichtig**
+
+Die Nutzung von Consolidate On-Premise setzt voraus, dass Sie einen Webserver sicher administrieren können, einschließlich regelmäßiger Betriebssystem-Updates, Firewall-Management und allgemeiner Serversicherheit.  
+Sie sind selbst verantwortlich für Backups, Updates und die laufende Wartung Ihres Servers und Ihrer Daten.
+
+Falls Sie sich nicht sicher sind, eine sichere und stabile Umgebung gewährleisten zu können, empfehlen wir dringend unsere Cloud-Hosting-Optionen: [Consolidate Cloud-Pläne](https://www.consolidate.eu/preise)
+
+
 ## Hosting-Optionen & Voraussetzungen
 
 Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
