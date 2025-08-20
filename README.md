@@ -32,6 +32,13 @@ During setup, you can choose between two hosting options for exposing your Conso
 ### System Emails
 - **Mail Server**: You need an SMTP server capable of sending emails. This is required for system notifications (e.g., appointment invitations).
 
+
+### Hardware
+- **Server Type**: A Linux server with Docker installed. We recommend Ubuntu Server 24.04 LTS. Docker on Windows might work, but is untested.
+- **Resource Requirements**: Based on our experience, you should plan for at least:
+   - 1 CPU core and 2 GB RAM per 20 users.
+   - Adjust resources according to your expected user count for optimal performance.
+
 ### Software
 - **Docker**: You must have Docker installed on your system. [Install Docker](https://docs.docker.com/engine/install/)
 - **Git**: You must have Git installed. [Install Git](https://git-scm.com/downloads)
