@@ -1,3 +1,5 @@
+(Für die Deutsch Anleitung klicken Sie [hier](./README.de.md).)
+
 # Consolidate On-Premise Installation Guide
 
 This guide will help you install and run Consolidate On-Premise using Docker and the provided `server.sh` script.
@@ -34,7 +36,7 @@ During setup, you can choose between two hosting options for exposing your Conso
 
 
 ### Hardware
-- **Server Type**: A Linux server with Docker installed. We recommend Ubuntu Server 24.04 LTS. Docker on Windows might work, but is untested.
+- **Operating System**: Linux. We recommend Ubuntu Server 24.04 LTS. Docker on Windows might work, but is untested.
 - **Resource Requirements**: Based on our experience, you should plan for at least:
    - 1 CPU core and 2 GB RAM per 20 users.
    - Adjust resources according to your expected user count for optimal performance.
