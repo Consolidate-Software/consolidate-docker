@@ -61,26 +61,6 @@ configure_app() {
         echo -e "${C_YELLOW}Backup of existing .env created as .env.bak${C_NC}"
     fi
 
-    echo -e "\n${C_YELLOW}1. Administrator Details${C_NC}"
-    read -p "Enter the administrator's email address: " ADMIN_EMAIL
-    while [ -z "$ADMIN_EMAIL" ]; do
-        echo -e "${C_RED}Admin email cannot be empty.${C_NC}"
-        read -p "Enter the administrator's email address: " ADMIN_EMAIL
-    done
-
-    while true; do
-        read -s -p "Enter the administrator password: " ADMIN_PASSWORD
-        echo
-        read -s -p "Confirm password: " ADMIN_PASSWORD_CONFIRM
-        echo
-        if [ "$ADMIN_PASSWORD" = "$ADMIN_PASSWORD_CONFIRM" ] && [ -n "$ADMIN_PASSWORD" ]; then
-            break
-        else
-            echo -e "${C_RED}Passwords do not match or are empty. Please try again.${C_NC}"
-        fi
-    done
-
-
     echo -e "\n${C_YELLOW}How do you want to exposing your application?${C_NC}"
     echo "  1) Expose directly and generate certificate with Let's Encrypt (requires port 80 for HTTP)"
     echo "  2) Expose via a reverse proxy, don't generate certificate (custom HTTP port, no HTTPS port)"
@@ -96,6 +76,12 @@ configure_app() {
                 read -p "Enter the public domain name (e.g., app.company.com): " DOMAIN_NAME
             done
 
+            read -p "Enter the contact email address for Let's Encrypt (used for certificate expiry notices): " LETSENCRYPT_EMAIL
+            while [ -z "$LETSENCRYPT_EMAIL" ]; do
+                echo -e "${C_RED}Let's Encrypt email cannot be empty.${C_NC}"
+                read -p "Enter the contact email address for Let's Encrypt (used for certificate expiry notices): " LETSENCRYPT_EMAIL
+            done
+
             read -p "Enter HTTPS port (default 443): " HTTPS_PORT
             if [ -z "$HTTPS_PORT" ]; then
                 HTTPS_PORT="443"
@@ -108,6 +94,7 @@ configure_app() {
             fi
             HTTPS_PORT=""
             DOMAIN_NAME=""
+            LETSENCRYPT_EMAIL=""
             ASPNETCORE_FORWARDEDHEADERS_ENABLED="true"
             break
         else
@@ -120,7 +107,7 @@ configure_app() {
         DATABASE_PORT="8080"
     fi
 
-    echo -e "\n${C_YELLOW}3. License Key${C_NC}"
+    echo -e "\n${C_YELLOW}2. License Key${C_NC}"
     read -p "Enter your License key: " LICENSE_KEY
     while [ -z "$LICENSE_KEY" ]; do
         echo -e "${C_RED}License key cannot be empty.${C_NC}"
@@ -137,7 +124,7 @@ configure_app() {
         echo -e "${C_GREEN}Database certificate password generated.${C_NC}"
     fi
 
-    echo -e "\n${C_YELLOW}4. System Email Configuration${C_NC}"
+    echo -e "\n${C_YELLOW}3. System Email Configuration${C_NC}"
     read -p "Enter system email address (for notifications, etc): " SYSTEMEMAIL_EMAIL
     read -p "Enter SMTP host: " SYSTEMEMAIL_HOST
     read -p "Enter SMTP port: " SYSTEMEMAIL_PORT
@@ -171,10 +158,8 @@ DATABASE_PORT="$DATABASE_PORT"
 
 ASPNETCORE_FORWARDEDHEADERS_ENABLED="${ASPNETCORE_FORWARDEDHEADERS_ENABLED}"
 
-ADMIN_EMAIL="$ADMIN_EMAIL"
-ADMIN_PASSWORD="$ADMIN_PASSWORD"
-
 DOMAIN_NAME="$DOMAIN_NAME"
+LETSENCRYPT_EMAIL="$LETSENCRYPT_EMAIL"
 
 # Backup Settings
 Backup__Enabled="true"

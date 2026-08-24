@@ -19,9 +19,6 @@ services:
       HTTPS_PORTS: "${HTTPS_PORT}"
       DatabasePort: "${DATABASE_PORT}"
 
-      AdminEmail: "${ADMIN_EMAIL}"
-      AdminPassword: "${ADMIN_PASSWORD}"
-
       License__LicenseKey: "${LICENSE_KEY}"
 
       Database__Name: "${DATABASE_NAME}"
@@ -37,7 +34,7 @@ services:
       LettuceEncrypt__StoragePassword: "${DATABASE_CERT_PASSWORD}"
       LettuceEncrypt__AcceptTermsOfService: "true"
       LettuceEncrypt__DomainNames__0: "${DOMAIN_NAME}"
-      LettuceEncrypt__EmailAddress: "${ADMIN_EMAIL}"
+      LettuceEncrypt__EmailAddress: "${LETSENCRYPT_EMAIL:-${ADMIN_EMAIL:-}}"
       
       Backup__FolderPath: "/backup"
 
