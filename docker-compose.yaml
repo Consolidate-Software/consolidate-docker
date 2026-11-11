@@ -43,7 +43,10 @@ services:
       # the HTTP port. Compose deduplicates the identical mapping, so nothing
       # extra is published and the host port 443 stays free for the proxy.
       - "${HTTPS_PORT:-${HTTP_PORT:-80}}:${HTTPS_PORT:-${HTTP_PORT:-80}}"
-      - "${DATABASE_PORT:-8080}:${DATABASE_PORT:-8080}"
+      # The app links to the database studio on DATABASE_PORT. Behind a reverse proxy
+      # that listens on DATABASE_PORT itself, DATABASE_HOST_PORT publishes the app on a
+      # different host port for the proxy to forward to.
+      - "${DATABASE_HOST_PORT:-${DATABASE_PORT:-8080}}:${DATABASE_PORT:-8080}"
 
     networks:
       app-network:
