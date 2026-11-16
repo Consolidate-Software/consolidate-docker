@@ -66,6 +66,11 @@ services:
   cache:
     image: redis:8.0.3
 
+    # No volume is mounted, so RDB snapshots never survive a restart anyway.
+    # Disable them so a failed background save cannot put Redis into
+    # read-only mode (MISCONF / stop-writes-on-bgsave-error).
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 1s
