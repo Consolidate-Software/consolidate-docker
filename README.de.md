@@ -22,8 +22,7 @@ Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
 - **Beschreibung**: Die Anwendung wird direkt ins Internet freigegeben und ein TLS-Zertifikat wird automatisch mit Let's Encrypt generiert.
 - **Voraussetzungen**:
    - Sie benötigen einen Domainnamen, der auf Ihren Server zeigt (statische IP oder dynamisches DNS).
-   - Ihr Server muss über das Internet auf **Port 80** (für die Zertifikatsgenerierung) und **Port 443** (für HTTPS) erreichbar sein.
-   - Es werden zwei weitere Ports benötigt: (Standardmäßig 443 und 8080).
+   - Ihr Server muss über das Internet auf **Port 80** (für die Zertifikatsgenerierung) und auf dem HTTPS-Port (standardmäßig 443) erreichbar sein.
    - Stellen Sie sicher, dass Ihre Firewall eingehenden Traffic auf die konfigurierten Ports erlaubt.
    - Es darf kein anderer Dienst auf den konfigurierten Ports laufen.
 
@@ -34,8 +33,7 @@ Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
     - Sie benötigen einen Domainnamen, der auf Ihren Proxy-Server zeigt.
     - Ihr Reverse Proxy muss so konfiguriert sein, dass:
       - TLS-Zertifikate generiert und terminiert werden (die Anwendung selbst bietet kein HTTPS).
-      - HTTP-Anfragen an den HTTP-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar).
-      - HTTP-Anfragen an den Datenbank-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar).
+      - HTTP-Anfragen an den HTTP-Port der Anwendung weitergeleitet werden (während der Einrichtung konfigurierbar), einschließlich WebSocket-Verbindungen.
       - Die Header "X-Forwarded-For" und "X-Forwarded-Proto" gesetzt werden.
     - Für die Anwendung ist kein HTTPS-Port erforderlich; der gesamte Traffic zwischen Proxy und Anwendung ist unverschlüsselt (HTTP).
     - Die Firewall muss eingehenden Traffic zum Proxy und Traffic vom Proxy zur der Anwendung erlauben.
@@ -99,6 +97,9 @@ Während der Einrichtung können Sie zwischen zwei Hosting-Optionen wählen:
    Dies lädt den neuesten Code und aktualisiert die laufenden Container.
 
 ## Zusätzliche Hinweise
+
+- Das Datenbank-Studio (RavenDB Studio) ist Teil der Anwendung: Administratoren mit der Berechtigung zur Datenbankverwaltung öffnen es im Adminbereich, unter derselben Adresse und demselben Port wie die Anwendung. Ein eigener Datenbank-Port wird nicht benötigt.
+- **Aktualisierung einer bestehenden Installation:** Frühere Versionen haben das Datenbank-Studio auf einem eigenen Port bereitgestellt (`DATABASE_PORT`, standardmäßig 8080). Nach dem Update können Sie `DATABASE_PORT` und `DATABASE_HOST_PORT` aus Ihrer `.env` entfernen, den Port in Ihrer Firewall schließen und die zugehörige Regel in Ihrem Reverse Proxy entfernen.
 
 - Sie können die Logs anzeigen mit:
   ```bash

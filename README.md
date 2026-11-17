@@ -20,8 +20,7 @@ During setup, you can choose between two hosting options for exposing your Conso
 - **Description**: The application is exposed directly to the internet, and a TLS certificate is automatically generated using Let's Encrypt.
 - **Prerequisites**:
    - You must have a domain name that resolves to your server (via static IP or dynamic DNS).
-   - Your server must be accessible from the web on **port 80** (for certificate generation).
-   - Two additional ports for HTTPS and Database traffic (default 443 and 8080).
+   - Your server must be accessible from the web on **port 80** (for certificate generation) and on the HTTPS port (default 443).
    - Ensure your firewall allows inbound traffic on the configured ports.
    - The server must not have another service listening on the configured ports.
 
@@ -33,8 +32,7 @@ During setup, you can choose between two hosting options for exposing your Conso
     - You must have a domain name that resolves to your proxy server.
     - Your reverse proxy must be configured to:
        - Handle TLS certificate generation and termination (the application itself does not provide HTTPS).
-       - Forward HTTP requests to the application's HTTP port (customizable during setup).
-       - Forward HTTP requiests to the application's Database port (customizable during setup).
+       - Forward HTTP requests to the application's HTTP port (customizable during setup), including WebSocket connections.
        - Set the "X-Forwarded-For" and "X-Forwarded-Proto" headers for proper client IP and protocol handling.
     - No HTTPS port is required for the application itself; all traffic between the proxy and the application is unencrypted HTTP.
     - Ensure your firewall allows inbound traffic to your proxy and traffic from the proxy to the application.
@@ -99,6 +97,9 @@ During setup, you can choose between two hosting options for exposing your Conso
    This will pull the latest code and update the running containers.
 
 ## Additional Notes
+
+- The database studio (RavenDB Studio) is part of the application: administrators with the database administration permission open it from the admin area, on the same address and port as the application. No separate database port is needed.
+- **Upgrading from an older installation:** earlier versions published the database studio on a separate port (`DATABASE_PORT`, default 8080). After updating, you can remove `DATABASE_PORT` and `DATABASE_HOST_PORT` from your `.env`, close that port in your firewall and remove the matching rule from your reverse proxy.
 
 - You can view logs with:
   ```bash
