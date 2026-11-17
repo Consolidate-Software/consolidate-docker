@@ -102,11 +102,6 @@ configure_app() {
         fi
     done
 
-    read -p "Enter Database port (default 8080): " DATABASE_PORT
-    if [ -z "$DATABASE_PORT" ]; then
-        DATABASE_PORT="8080"
-    fi
-
     echo -e "\n${C_YELLOW}2. License Key${C_NC}"
     read -p "Enter your License key: " LICENSE_KEY
     while [ -z "$LICENSE_KEY" ]; do
@@ -154,7 +149,6 @@ SystemEmail__Password="$SYSTEMEMAIL_PASSWORD"
 
 HTTP_PORT="$HTTP_PORT"
 HTTPS_PORT="$HTTPS_PORT"
-DATABASE_PORT="$DATABASE_PORT"
 
 ASPNETCORE_FORWARDEDHEADERS_ENABLED="${ASPNETCORE_FORWARDEDHEADERS_ENABLED}"
 
